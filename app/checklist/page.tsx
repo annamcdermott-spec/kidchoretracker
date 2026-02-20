@@ -67,7 +67,7 @@ export default function ChecklistPage() {
     <div className="min-h-screen bg-[#f8fafc] text-slate-700">
       <header className="border-b border-slate-200 bg-white shadow-sm">
         <div className="mx-auto flex max-w-4xl flex-row flex-wrap items-center justify-between gap-3 px-4 py-4 sm:gap-4 sm:px-6 sm:py-6">
-          <h1 className="text-lg font-bold text-slate-800 sm:text-xl">Checklist</h1>
+          <h1 className="text-lg font-bold text-slate-800 sm:text-xl">Kid Checklist</h1>
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <a
               href="/"
@@ -120,7 +120,7 @@ export default function ChecklistPage() {
             </div>
           )}
           <div className="mt-4 border-t border-slate-200 pt-4 sm:mt-6 sm:pt-6">
-            <h2 className="mb-3 text-base font-bold text-slate-800 sm:mb-4 sm:text-lg">Checklist</h2>
+            <h2 className="mb-3 text-base font-bold text-slate-800 sm:mb-4 sm:text-lg">Kid Checklist</h2>
             {selectedKidId === "" ? (
               <p className="text-base text-slate-500 sm:text-lg">Select a kid to see their chores.</p>
             ) : assignedChores.length === 0 ? (

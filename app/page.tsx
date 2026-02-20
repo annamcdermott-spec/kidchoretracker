@@ -15,7 +15,7 @@ export default function Home() {
             href="/checklist"
             className="min-h-[48px] w-full rounded-xl bg-[#3b82f6] px-6 py-3 text-base font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 sm:w-auto sm:px-8 sm:text-lg"
           >
-            Checklist →
+            Kid Checklist →
           </a>
         </div>
       </main>

@@ -86,7 +86,7 @@ export default function SetupPage() {
                 href="/checklist"
                 className="min-h-[48px] shrink-0 rounded-xl bg-[#3b82f6] px-4 py-3 text-center text-base font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 sm:px-5 sm:text-lg"
               >
-                Go to Checklist →
+                Go to Kid Checklist →
               </a>
             </div>
           </div>
