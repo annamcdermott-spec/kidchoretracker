@@ -65,27 +65,27 @@ export default function ChecklistPage() {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-700">
-      <header className="border-b border-slate-200 bg-white px-6 py-4 shadow-sm">
-        <div className="flex items-center justify-between">
+      <header className="border-b border-slate-200 bg-white shadow-sm">
+        <div className="mx-auto flex max-w-4xl flex-row flex-wrap items-center justify-between gap-4 px-6 py-6">
           <h1 className="text-xl font-bold text-slate-800">Checklist</h1>
           <a
             href="/setup"
-            className="min-h-[48px] rounded-xl bg-[#3b82f6] px-5 py-3 text-lg font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2"
+            className="min-h-[48px] shrink-0 rounded-xl bg-[#3b82f6] px-5 py-3 text-center text-lg font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2"
           >
             ← Back to Setup
           </a>
         </div>
       </header>
-      <main className="mx-auto max-w-4xl space-y-6 px-6 py-8">
+      <main className="mx-auto max-w-4xl px-6 py-8">
         <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-          <label htmlFor="kid-select" className="mb-2 block text-lg font-medium text-slate-700">
+          <label htmlFor="kid-select" className="mb-4 block text-lg font-medium text-slate-700">
             Select kid
           </label>
           <select
             id="kid-select"
             value={selectedKidId}
             onChange={(e) => setSelectedKidId(e.target.value)}
-            className="min-h-[48px] w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-lg outline-none focus:border-[#22c55e] focus:ring-2 focus:ring-[#22c55e]"
+            className="min-h-[48px] w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg outline-none focus:border-[#22c55e] focus:ring-2 focus:ring-[#22c55e]"
             aria-label="Select kid"
           >
             {kids.length === 0 ? (
@@ -99,7 +99,7 @@ export default function ChecklistPage() {
             )}
           </select>
           {selectedKidId !== "" && (
-            <div className="mt-6 flex items-center gap-6 rounded-xl bg-emerald-50 px-5 py-4">
+            <div className="mt-6 flex flex-wrap items-center gap-6 rounded-xl bg-emerald-50 px-6 py-4">
               <span
                 className="text-2xl font-bold text-[#22c55e]"
                 aria-label="Stars earned"
@@ -120,7 +120,7 @@ export default function ChecklistPage() {
                 No chores assigned. Assign chores in Setup.
               </p>
             ) : (
-              <ul className="space-y-3" role="list">
+              <ul className="space-y-2" role="list">
                 {assignedChores.map(({ chore, count }) => {
                   const atMax = count >= chore.requiredCount;
                   const justCompleted = justCompletedChoreId === chore.id;
@@ -140,7 +140,7 @@ export default function ChecklistPage() {
                         onClick={() => incrementCount(chore.id, chore.requiredCount)}
                         disabled={atMax}
                         aria-label={`+1 for ${chore.name}`}
-                        className="min-h-[48px] min-w-[80px] rounded-xl bg-[#22c55e] px-4 py-2 text-lg font-medium text-white hover:bg-[#16a34a] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
+                        className="min-h-[48px] min-w-[80px] shrink-0 rounded-xl bg-[#22c55e] px-4 py-2 text-lg font-medium text-white hover:bg-[#16a34a] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
                       >
                         +1
                       </button>
