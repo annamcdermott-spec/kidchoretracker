@@ -75,12 +75,20 @@ export default function SetupPage() {
         <div className="mx-auto flex max-w-4xl flex-col gap-4 px-4 py-4 sm:px-6 sm:py-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <h1 className="text-lg font-bold text-slate-800 sm:text-xl">Parent Setup</h1>
-            <a
-              href="/checklist"
-              className="min-h-[48px] shrink-0 rounded-xl bg-[#3b82f6] px-4 py-3 text-center text-base font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 sm:px-5 sm:text-lg"
-            >
-              Go to Checklist →
-            </a>
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <a
+                href="/"
+                className="min-h-[48px] shrink-0 rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-center text-base font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 sm:px-5 sm:text-lg"
+              >
+                ← Home
+              </a>
+              <a
+                href="/checklist"
+                className="min-h-[48px] shrink-0 rounded-xl bg-[#3b82f6] px-4 py-3 text-center text-base font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 sm:px-5 sm:text-lg"
+              >
+                Go to Checklist →
+              </a>
+            </div>
           </div>
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <label htmlFor="reward-goal" className="text-base font-medium text-slate-600 sm:text-lg">
