@@ -66,26 +66,26 @@ export default function ChecklistPage() {
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-700">
       <header className="border-b border-slate-200 bg-white shadow-sm">
-        <div className="mx-auto flex max-w-4xl flex-row flex-wrap items-center justify-between gap-4 px-6 py-6">
-          <h1 className="text-xl font-bold text-slate-800">Checklist</h1>
+        <div className="mx-auto flex max-w-4xl flex-row flex-wrap items-center justify-between gap-3 px-4 py-4 sm:gap-4 sm:px-6 sm:py-6">
+          <h1 className="text-lg font-bold text-slate-800 sm:text-xl">Checklist</h1>
           <a
             href="/setup"
-            className="min-h-[48px] shrink-0 rounded-xl bg-[#3b82f6] px-5 py-3 text-center text-lg font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2"
+            className="min-h-[48px] shrink-0 rounded-xl bg-[#3b82f6] px-4 py-3 text-center text-base font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2 sm:px-5 sm:text-lg"
           >
             ← Back to Setup
           </a>
         </div>
       </header>
-      <main className="mx-auto max-w-4xl px-6 py-8">
-        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-          <label htmlFor="kid-select" className="mb-4 block text-lg font-medium text-slate-700">
+      <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
+        <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+          <label htmlFor="kid-select" className="mb-3 block text-base font-medium text-slate-700 sm:mb-4 sm:text-lg">
             Select kid
           </label>
           <select
             id="kid-select"
             value={selectedKidId}
             onChange={(e) => setSelectedKidId(e.target.value)}
-            className="min-h-[48px] w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-lg outline-none focus:border-[#22c55e] focus:ring-2 focus:ring-[#22c55e]"
+            className="min-h-[48px] w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-base outline-none focus:border-[#22c55e] focus:ring-2 focus:ring-[#22c55e] sm:text-lg"
             aria-label="Select kid"
           >
             {kids.length === 0 ? (
@@ -99,24 +99,24 @@ export default function ChecklistPage() {
             )}
           </select>
           {selectedKidId !== "" && (
-            <div className="mt-6 flex flex-wrap items-center gap-6 rounded-xl bg-emerald-50 px-6 py-4">
+            <div className="mt-4 flex flex-wrap items-center gap-4 rounded-xl bg-emerald-50 px-4 py-3 sm:mt-6 sm:gap-6 sm:px-6 sm:py-4">
               <span
-                className="text-2xl font-bold text-[#22c55e]"
+                className="text-xl font-bold text-[#22c55e] sm:text-2xl"
                 aria-label="Stars earned"
               >
                 ★ {totalStars}
               </span>
-              <span className="text-lg font-medium text-slate-700">
+              <span className="text-base font-medium text-slate-700 sm:text-lg">
                 {totalStars} / {rewardGoal} toward goal
               </span>
             </div>
           )}
-          <div className="mt-6 border-t border-slate-200 pt-6">
-            <h2 className="mb-4 text-lg font-bold text-slate-800">Checklist</h2>
+          <div className="mt-4 border-t border-slate-200 pt-4 sm:mt-6 sm:pt-6">
+            <h2 className="mb-3 text-base font-bold text-slate-800 sm:mb-4 sm:text-lg">Checklist</h2>
             {selectedKidId === "" ? (
-              <p className="text-lg text-slate-500">Select a kid to see their chores.</p>
+              <p className="text-base text-slate-500 sm:text-lg">Select a kid to see their chores.</p>
             ) : assignedChores.length === 0 ? (
-              <p className="text-lg text-slate-500">
+              <p className="text-base text-slate-500 sm:text-lg">
                 No chores assigned. Assign chores in Setup.
               </p>
             ) : (
@@ -127,12 +127,12 @@ export default function ChecklistPage() {
                   return (
                     <li
                       key={chore.id}
-                      className={`flex min-h-[48px] items-center justify-between gap-4 rounded-lg bg-slate-50 px-4 py-3 text-lg transition-colors hover:bg-slate-100 ${
+                      className={`flex min-h-[48px] flex-wrap items-center justify-between gap-2 rounded-lg bg-slate-50 px-3 py-3 text-base transition-colors hover:bg-slate-100 sm:flex-nowrap sm:gap-4 sm:px-4 sm:text-lg ${
                         justCompleted ? "animate-celebrate bg-emerald-50" : ""
                       }`}
                     >
-                      <span className="font-medium text-slate-800">{chore.name}</span>
-                      <span className="text-slate-600">
+                      <span className="min-w-0 flex-1 font-medium text-slate-800">{chore.name}</span>
+                      <span className="shrink-0 text-slate-600">
                         {count}/{chore.requiredCount}
                       </span>
                       <button
@@ -140,7 +140,7 @@ export default function ChecklistPage() {
                         onClick={() => incrementCount(chore.id, chore.requiredCount)}
                         disabled={atMax}
                         aria-label={`+1 for ${chore.name}`}
-                        className="min-h-[48px] min-w-[80px] shrink-0 rounded-xl bg-[#22c55e] px-4 py-2 text-lg font-medium text-white hover:bg-[#16a34a] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
+                        className="min-h-[44px] min-w-[72px] shrink-0 rounded-xl bg-[#22c55e] px-3 py-2 text-base font-medium text-white hover:bg-[#16a34a] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2 sm:min-h-[48px] sm:min-w-[80px] sm:px-4 sm:text-lg"
                       >
                         +1
                       </button>
