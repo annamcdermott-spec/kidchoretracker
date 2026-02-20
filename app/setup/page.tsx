@@ -17,12 +17,14 @@ export default function SetupPage() {
   const [choreRequiredCount, setChoreRequiredCount] = useState(1);
 
   const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [rewardGoal, setRewardGoal] = useState(10);
 
   useEffect(() => {
     const data = getSetupData();
     setKids(data.kids);
     setChores(data.chores);
     setAssignments(data.assignments);
+    setRewardGoal(data.rewardGoal);
   }, []);
 
   useEffect(() => {
@@ -31,8 +33,9 @@ export default function SetupPage() {
       chores,
       assignments,
       completions: getSetupData().completions,
+      rewardGoal,
     });
-  }, [kids, chores, assignments]);
+  }, [kids, chores, assignments, rewardGoal]);
 
   function addKid() {
     const name = kidName.trim();
@@ -77,6 +80,20 @@ export default function SetupPage() {
           >
             Go to Checklist →
           </a>
+        </div>
+        <div className="mt-3 flex items-center gap-2">
+          <label htmlFor="reward-goal" className="text-sm text-zinc-600">
+            Reward goal (stars):
+          </label>
+          <input
+            id="reward-goal"
+            type="number"
+            min={1}
+            value={rewardGoal}
+            onChange={(e) => setRewardGoal(Math.max(1, parseInt(e.target.value, 10) || 1))}
+            className="w-20 rounded border border-zinc-300 px-2 py-1 text-sm outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+            aria-label="Reward goal in stars"
+          />
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-6 py-8">

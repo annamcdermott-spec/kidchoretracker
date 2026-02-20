@@ -12,6 +12,7 @@ export type SetupData = {
   chores: StoredChore[];
   assignments: StoredAssignment[];
   completions: StoredCompletion[];
+  rewardGoal: number;
 };
 
 const defaultData: SetupData = {
@@ -19,6 +20,7 @@ const defaultData: SetupData = {
   chores: [],
   assignments: [],
   completions: [],
+  rewardGoal: 10,
 };
 
 export function getSetupData(): SetupData {
@@ -27,11 +29,16 @@ export function getSetupData(): SetupData {
     const raw = window.localStorage.getItem(SETUP_STORAGE_KEY);
     if (!raw) return defaultData;
     const parsed = JSON.parse(raw) as SetupData;
+    const rewardGoal =
+      typeof parsed.rewardGoal === "number" && parsed.rewardGoal >= 1
+        ? parsed.rewardGoal
+        : defaultData.rewardGoal;
     return {
       kids: Array.isArray(parsed.kids) ? parsed.kids : defaultData.kids,
       chores: Array.isArray(parsed.chores) ? parsed.chores : defaultData.chores,
       assignments: Array.isArray(parsed.assignments) ? parsed.assignments : defaultData.assignments,
       completions: Array.isArray(parsed.completions) ? parsed.completions : defaultData.completions,
+      rewardGoal,
     };
   } catch {
     return defaultData;

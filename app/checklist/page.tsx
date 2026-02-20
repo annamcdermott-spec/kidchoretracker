@@ -9,6 +9,7 @@ export default function ChecklistPage() {
   const [chores, setChores] = useState<StoredChore[]>([]);
   const [assignments, setAssignments] = useState<{ kidId: string; choreId: string }[]>([]);
   const [completions, setCompletions] = useState<StoredCompletion[]>([]);
+  const [rewardGoal, setRewardGoal] = useState(10);
   const [selectedKidId, setSelectedKidId] = useState<string>("");
 
   useEffect(() => {
@@ -17,6 +18,7 @@ export default function ChecklistPage() {
     setChores(data.chores);
     setAssignments(data.assignments);
     setCompletions(data.completions);
+    setRewardGoal(data.rewardGoal);
     if (data.kids.length > 0) {
       setSelectedKidId((prev) => (data.kids.some((k) => k.id === prev) ? prev : data.kids[0].id));
     }
@@ -36,6 +38,8 @@ export default function ChecklistPage() {
             return chore ? { chore, count } : null;
           })
           .filter((x): x is { chore: StoredChore; count: number } => x !== null);
+
+  const totalStars = assignedChores.reduce((sum, { count }) => sum + count, 0);
 
   function incrementCount(choreId: string, requiredCount: number) {
     const existing = completions.find(
@@ -89,6 +93,16 @@ export default function ChecklistPage() {
               ))
             )}
           </select>
+          {selectedKidId !== "" && (
+            <div className="mt-4 flex items-center gap-4 rounded bg-amber-50 px-4 py-3 text-sm">
+              <span className="font-medium text-amber-800" aria-label="Stars earned">
+                ★ {totalStars}
+              </span>
+              <span className="text-amber-700">
+                {totalStars}/{rewardGoal} toward goal
+              </span>
+            </div>
+          )}
           <div className="mt-6 border-t border-zinc-200 pt-6">
             <h2 className="mb-4 text-base font-medium text-zinc-700">Checklist</h2>
             {selectedKidId === "" ? (
