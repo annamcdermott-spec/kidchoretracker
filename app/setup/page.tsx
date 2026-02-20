@@ -4,6 +4,7 @@ import { useState } from "react";
 
 type Kid = { id: string; name: string };
 type Chore = { id: string; name: string; requiredCount: number };
+type Assignment = { kidId: string; choreId: string };
 
 export default function SetupPage() {
   const [kids, setKids] = useState<Kid[]>([]);
@@ -13,6 +14,8 @@ export default function SetupPage() {
   const [chores, setChores] = useState<Chore[]>([]);
   const [choreName, setChoreName] = useState("");
   const [choreRequiredCount, setChoreRequiredCount] = useState(1);
+
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
 
   function addKid() {
     const name = kidName.trim();
@@ -29,6 +32,22 @@ export default function SetupPage() {
     setChoreName("");
     setChoreRequiredCount(1);
   }
+
+  function assignChore(kidId: string, choreId: string) {
+    setAssignments((prev) =>
+      prev.some((a) => a.kidId === kidId && a.choreId === choreId)
+        ? prev
+        : [...prev, { kidId, choreId }]
+    );
+  }
+
+  const assignedChoreIdsForSelectedKid =
+    selectedKidId == null
+      ? []
+      : assignments
+          .filter((a) => a.kidId === selectedKidId)
+          .map((a) => a.choreId);
+  const selectedKid = kids.find((k) => k.id === selectedKidId);
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
@@ -79,6 +98,23 @@ export default function SetupPage() {
                 ))
               )}
             </ul>
+            {selectedKid && (
+              <div className="mt-4 border-t border-zinc-200 pt-4">
+                <h3 className="mb-2 text-xs font-medium uppercase tracking-wide text-zinc-500">
+                  Assigned to {selectedKid.name}
+                </h3>
+                {assignedChoreIdsForSelectedKid.length === 0 ? (
+                  <p className="text-sm text-zinc-500">No chores assigned yet.</p>
+                ) : (
+                  <ul className="space-y-1 text-sm text-zinc-700" role="list">
+                    {assignedChoreIdsForSelectedKid.map((choreId) => {
+                      const chore = chores.find((c) => c.id === choreId);
+                      return chore ? <li key={choreId}>{chore.name} (×{chore.requiredCount})</li> : null;
+                    })}
+                  </ul>
+                )}
+              </div>
+            )}
           </section>
           {/* Right: Chores */}
           <section className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
@@ -119,10 +155,19 @@ export default function SetupPage() {
                 chores.map((chore) => (
                   <li
                     key={chore.id}
-                    className="flex items-center justify-between rounded bg-zinc-50 px-3 py-2 text-sm text-zinc-700"
+                    className="flex items-center justify-between gap-2 rounded bg-zinc-50 px-3 py-2 text-sm text-zinc-700"
                   >
-                    <span>{chore.name}</span>
+                    <span className="flex-1">{chore.name}</span>
                     <span className="text-zinc-500">×{chore.requiredCount}</span>
+                    <button
+                      type="button"
+                      onClick={() => selectedKidId && assignChore(selectedKidId, chore.id)}
+                      disabled={!selectedKidId}
+                      className="rounded bg-zinc-700 px-2 py-1 text-xs font-medium text-white hover:bg-zinc-600 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2"
+                      aria-label={`Assign ${chore.name} to selected kid`}
+                    >
+                      Assign
+                    </button>
                   </li>
                 ))
               )}
