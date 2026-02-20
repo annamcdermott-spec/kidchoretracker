@@ -26,7 +26,12 @@ export default function SetupPage() {
   }, []);
 
   useEffect(() => {
-    setSetupData({ kids, chores, assignments });
+    setSetupData({
+      kids,
+      chores,
+      assignments,
+      completions: getSetupData().completions,
+    });
   }, [kids, chores, assignments]);
 
   function addKid() {
