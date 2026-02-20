@@ -11,6 +11,7 @@ export default function ChecklistPage() {
   const [completions, setCompletions] = useState<StoredCompletion[]>([]);
   const [rewardGoal, setRewardGoal] = useState(10);
   const [selectedKidId, setSelectedKidId] = useState<string>("");
+  const [justCompletedChoreId, setJustCompletedChoreId] = useState<string | null>(null);
 
   useEffect(() => {
     const data = getSetupData();
@@ -56,31 +57,35 @@ export default function ChecklistPage() {
       : [...completions, { kidId: selectedKidId, choreId, count: nextCount }];
     setCompletions(next);
     setSetupData({ ...getSetupData(), completions: next });
+    if (nextCount >= requiredCount) {
+      setJustCompletedChoreId(choreId);
+      setTimeout(() => setJustCompletedChoreId(null), 500);
+    }
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900">
-      <header className="border-b border-zinc-200 bg-white px-6 py-4">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-700">
+      <header className="border-b border-slate-200 bg-white px-6 py-4 shadow-sm">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-semibold">Checklist</h1>
+          <h1 className="text-xl font-bold text-slate-800">Checklist</h1>
           <a
             href="/setup"
-            className="rounded px-2 py-1 text-sm font-medium text-zinc-600 hover:text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2"
+            className="min-h-[48px] rounded-xl bg-[#3b82f6] px-5 py-3 text-lg font-medium text-white hover:bg-[#2563eb] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:ring-offset-2"
           >
             ← Back to Setup
           </a>
         </div>
       </header>
-      <main className="mx-auto max-w-2xl px-6 py-8">
-        <div className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
-          <label htmlFor="kid-select" className="mb-2 block text-sm font-medium text-zinc-700">
+      <main className="mx-auto max-w-4xl space-y-6 px-6 py-8">
+        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <label htmlFor="kid-select" className="mb-2 block text-lg font-medium text-slate-700">
             Select kid
           </label>
           <select
             id="kid-select"
             value={selectedKidId}
             onChange={(e) => setSelectedKidId(e.target.value)}
-            className="w-full rounded border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+            className="min-h-[48px] w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-lg outline-none focus:border-[#22c55e] focus:ring-2 focus:ring-[#22c55e]"
             aria-label="Select kid"
           >
             {kids.length === 0 ? (
@@ -94,34 +99,40 @@ export default function ChecklistPage() {
             )}
           </select>
           {selectedKidId !== "" && (
-            <div className="mt-4 flex items-center gap-4 rounded bg-amber-50 px-4 py-3 text-sm">
-              <span className="font-medium text-amber-800" aria-label="Stars earned">
+            <div className="mt-6 flex items-center gap-6 rounded-xl bg-emerald-50 px-5 py-4">
+              <span
+                className="text-2xl font-bold text-[#22c55e]"
+                aria-label="Stars earned"
+              >
                 ★ {totalStars}
               </span>
-              <span className="text-amber-700">
-                {totalStars}/{rewardGoal} toward goal
+              <span className="text-lg font-medium text-slate-700">
+                {totalStars} / {rewardGoal} toward goal
               </span>
             </div>
           )}
-          <div className="mt-6 border-t border-zinc-200 pt-6">
-            <h2 className="mb-4 text-base font-medium text-zinc-700">Checklist</h2>
+          <div className="mt-6 border-t border-slate-200 pt-6">
+            <h2 className="mb-4 text-lg font-bold text-slate-800">Checklist</h2>
             {selectedKidId === "" ? (
-              <p className="text-sm text-zinc-500">Select a kid to see their chores.</p>
+              <p className="text-lg text-slate-500">Select a kid to see their chores.</p>
             ) : assignedChores.length === 0 ? (
-              <p className="text-sm text-zinc-500">
+              <p className="text-lg text-slate-500">
                 No chores assigned. Assign chores in Setup.
               </p>
             ) : (
-              <ul className="space-y-2" role="list">
+              <ul className="space-y-3" role="list">
                 {assignedChores.map(({ chore, count }) => {
                   const atMax = count >= chore.requiredCount;
+                  const justCompleted = justCompletedChoreId === chore.id;
                   return (
                     <li
                       key={chore.id}
-                      className="flex items-center justify-between gap-4 rounded bg-zinc-50 px-3 py-2 text-sm"
+                      className={`flex min-h-[48px] items-center justify-between gap-4 rounded-lg bg-slate-50 px-4 py-3 text-lg transition-colors hover:bg-slate-100 ${
+                        justCompleted ? "animate-celebrate bg-emerald-50" : ""
+                      }`}
                     >
-                      <span className="font-medium text-zinc-800">{chore.name}</span>
-                      <span className="text-zinc-500">
+                      <span className="font-medium text-slate-800">{chore.name}</span>
+                      <span className="text-slate-600">
                         {count}/{chore.requiredCount}
                       </span>
                       <button
@@ -129,7 +140,7 @@ export default function ChecklistPage() {
                         onClick={() => incrementCount(chore.id, chore.requiredCount)}
                         disabled={atMax}
                         aria-label={`+1 for ${chore.name}`}
-                        className="rounded bg-zinc-700 px-3 py-1 text-xs font-medium text-white hover:bg-zinc-600 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2"
+                        className="min-h-[48px] min-w-[80px] rounded-xl bg-[#22c55e] px-4 py-2 text-lg font-medium text-white hover:bg-[#16a34a] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#22c55e] focus:ring-offset-2"
                       >
                         +1
                       </button>
