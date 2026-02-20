@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getSetupData, setSetupData } from "@/lib/setup-storage";
 
 type Kid = { id: string; name: string };
 type Chore = { id: string; name: string; requiredCount: number };
@@ -16,6 +17,17 @@ export default function SetupPage() {
   const [choreRequiredCount, setChoreRequiredCount] = useState(1);
 
   const [assignments, setAssignments] = useState<Assignment[]>([]);
+
+  useEffect(() => {
+    const data = getSetupData();
+    setKids(data.kids);
+    setChores(data.chores);
+    setAssignments(data.assignments);
+  }, []);
+
+  useEffect(() => {
+    setSetupData({ kids, chores, assignments });
+  }, [kids, chores, assignments]);
 
   function addKid() {
     const name = kidName.trim();
@@ -52,7 +64,15 @@ export default function SetupPage() {
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
       <header className="border-b border-zinc-200 bg-white px-6 py-4">
-        <h1 className="text-lg font-semibold">Parent Setup</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-lg font-semibold">Parent Setup</h1>
+          <a
+            href="/checklist"
+            className="text-sm font-medium text-zinc-600 hover:text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 rounded px-2 py-1"
+          >
+            Go to Checklist →
+          </a>
+        </div>
       </header>
       <main className="mx-auto max-w-6xl px-6 py-8">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
